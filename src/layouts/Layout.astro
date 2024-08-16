@@ -2,6 +2,7 @@
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
 import "../styles/global.css";
+import ViewTransitions from "astro/components/ViewTransitions.astro";
 
 const { title } = Astro.props;
 ---
@@ -12,10 +13,11 @@ const { title } = Astro.props;
     <meta name="description" content="Astro description" />
     <meta name="viewport" content="width=device-width" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <ViewTransitions />
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
   </head>
-  <body class="mx-28 my-16">
+  <body class="mx-10 md:mx-28 my-16 2xl:mx-60">
     <Header />
     <slot />
     <Footer />

@@ -1,0 +1,66 @@
+---
+import Layout from "../layouts/Layout.astro";
+import { Icon } from "astro-icon/components";
+import "../styles/global.css";
+const pageTitle = "Skills";
+
+const techStack = [
+  { label: "Java", icon: "logos:java" },
+  { label: "C/C++", icon: "logos:c-plusplus" },
+  { label: "Python", icon: "logos:python" },
+  { label: "Javascript", icon: "logos:javascript" },
+  { label: "Astro", icon: "simple-icons:astro" },
+  { label: "Node js", icon: "devicon-plain:nodejs-wordmark" },
+  { label: "React js/ Native", icon: "logos:react" },
+  { label: "SQL", icon: "logos:mysql" },
+  // Typescript, HTML, Node js
+];
+
+const softwares = [
+  { label: "Visual Studio", icon: "logos:visual-studio-code" },
+  { label: "Git", icon: "simple-icons:git" },
+  { label: "Firebase", icon: "logos:firebase" },
+  { label: "Postman", icon: "logos:postman-icon" },
+  { label: "Krita", icon: "simple-icons:krita" },
+  { label: "Blender", icon: "logos:blender" },
+];
+---
+
+<Layout title={pageTitle}>
+  <div class="text-3xl my-12 mb-20 md:mx-40 2xl:mx-60">
+    <div class="mb-20">
+      <h1 class="font-krub font-bold text-5xl">Skills</h1>
+      <hr class="border-t-1 w-full border-indigo-200 mt-4" />
+    </div>
+    <div>
+      <h1 class="font-incon">Tech Stack</h1>
+      <div
+        class="flex flex-wrap gap-x-20 gap-y-12 mt-10 pl-2 font-incon font-light text-2xl text-indigo-100"
+      >
+        {
+          techStack.map((point: any) => (
+            <div class="flex min-w-fit my-2 items-center justify-center gap-4">
+              <Icon name={point.icon} size={36} class="-mt-2" />
+              <h1 class="text-sky-100">{point.label}</h1>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+    <div class="mt-16">
+      <h1 class="font-incon">Softwares</h1>
+      <div
+        class="flex flex-wrap gap-x-20 gap-y-12 mt-10 pl-2 font-incon font-light text-2xl text-indigo-100"
+      >
+        {
+          softwares.map((point: any) => (
+            <div class="flex min-w-fit my-2 items-center justify-center gap-4">
+              <Icon name={point.icon} size={32} class="-mt-2" />
+              <h1 class="text-sky-100">{point.label}</h1>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </div>
+</Layout>
