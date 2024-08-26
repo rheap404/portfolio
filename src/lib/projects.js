@@ -5,8 +5,19 @@ import kml from "../images/kml.png";
 import baccarat from "../images/baccarat.png";
 import server from "../images/client-server.png";
 import qrCode from "../images/QR.png";
+import os from "../images/OS.png";
 
 export const projects = [
+    {
+        title: "OS Shell Script",
+        link: "https://github.com/rheap404/OS",
+        tags: ["xv6", "Pipes", "OS", "C"],
+        image:
+        {
+            url: os,
+            alt: "XV6 image"
+        }
+    },
     {
         title: "Chess AI",
         link: "https://github.com/rheap404/chess",
