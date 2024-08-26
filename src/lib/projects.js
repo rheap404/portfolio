@@ -6,16 +6,27 @@ import baccarat from "../images/baccarat.png";
 import server from "../images/client-server.png";
 import qrCode from "../images/QR.png";
 import os from "../images/OS.png";
+import pro2 from "../images/Programming.png";
 
 export const projects = [
     {
         title: "OS Shell Script",
         link: "https://github.com/rheap404/OS",
-        tags: ["xv6", "Pipes", "OS", "C"],
+        tags: ["OS", "Pipes", "Xv6"],
         image:
         {
             url: os,
             alt: "XV6 image"
+        }
+    },
+    {
+        title: "File Format",
+        link: "https://github.com/rheap404/Programming-Project",
+        tags: ["Binary files", "Compression", "Image processing"],
+        image:
+        {
+            url: pro2,
+            alt: "binary file image"
         }
     },
     {
