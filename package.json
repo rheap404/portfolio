@@ -28,6 +28,8 @@
   "devDependencies": {
     "@iconify-json/devicon-plain": "^1.1.47",
     "@iconify-json/logos": "^1.1.44",
+    "@iconify-json/mdi": "^1.1.68",
+    "@iconify-json/meteocons": "^1.1.6",
     "@iconify-json/simple-icons": "^1.1.113"
   }
 }
