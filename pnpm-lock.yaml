@@ -20,6 +20,9 @@ importers:
       '@astrojs/tailwind':
         specifier: ^5.1.0
         version: 5.1.0(astro@4.13.3(@types/node@22.2.0)(typescript@5.5.4))(tailwindcss@3.4.9)
+      '@iconify-json/fluent':
+        specifier: ^1.2.8
+        version: 1.2.8
       astro:
         specifier: ^4.13.3
         version: 4.13.3(@types/node@22.2.0)(typescript@5.5.4)
@@ -373,6 +376,9 @@ packages:
 
   '@iconify-json/devicon-plain@1.1.47':
     resolution: {integrity: sha512-N+cT/VMC/MhA8fWCo9e80hFwhnX47rdF2SCKGc46UWfjXFncntq3l+lqMCpvnjrY+0ujGAqJ6XbOwt0o62Yi0g==}
+
+  '@iconify-json/fluent@1.2.8':
+    resolution: {integrity: sha512-yFpS3eKof874LYu0/pK0epz2c+UXlF5lTY+oX+xcXP9V5NAe4oSgWMBnKvJsxsYSEbgGhAMqDf+4y0GvyBzLVw==}
 
   '@iconify-json/logos@1.1.44':
     resolution: {integrity: sha512-sIc355/sSq4GihU4eFTDVbXoeg2rZD3yH6tNOJTNouDu9Fx259BSWH+XEEQwm/YImDIllcGqmJuNBjAu4UVs2g==}
@@ -2879,6 +2885,10 @@ snapshots:
     optional: true
 
   '@iconify-json/devicon-plain@1.1.47':
+    dependencies:
+      '@iconify/types': 2.0.0
+
+  '@iconify-json/fluent@1.2.8':
     dependencies:
       '@iconify/types': 2.0.0
 
