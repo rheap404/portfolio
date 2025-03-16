@@ -9,12 +9,8 @@ const navLinks = [
   { label: "Skills", href: "/skills" },
 ];
 ---
-
-<header class="font-darker font-light text-2xl">
-  
-  <div class="flex justify-between items-center">
-
-
+<header class="font-darker font-light text-2xl md:sticky top-2">
+  <div class="flex justify-between items-center gap-16 transition-all duration-300 ease-in-out border-none w-full px-10 md:w-auto mx-auto" id="header">
     <a href="/">
       <Icon name="meteocons:star-fill" size={80}/>
     </a>
@@ -33,11 +29,31 @@ const navLinks = [
   <nav class="flex-col items-end gap-4 mt-4 hidden md:hidden" id="mobile-nav">
     {navLinks.map((link) => <a href={link.href} class="flex">{link.label}</a>)}
   </nav>
-
-
 </header>
 
+<style>
+  .sticky-header {
+    background-color: rgba(19, 9, 24, 0.803); 
+    width: 75%;
+    transition: background-color 0.5s, width 2s ease-in-out, border 0.2s ease-in-out; 
+    border-radius: 6px;
+    border: 1px solid rgb(218, 181, 239); 
+    margin-left: auto;
+    margin-right: auto;
+  }
+</style>
+
 <script type="module" is:inline>
+  window.addEventListener("scroll", () => {
+    const header = document.getElementById('header');
+    
+    if (window.scrollY > 100) { 
+      header.classList.add('sticky-header'); 
+    } else {
+      header.classList.remove('sticky-header'); 
+    }
+  });
+
   function mobileHamburger() {
     const menuBtn = document.getElementById('menu-btn');
     const mobileNav = document.getElementById('mobile-nav');
@@ -52,4 +68,3 @@ const navLinks = [
   document.addEventListener("astro:before-swap", mobileHamburger);
   document.addEventListener("astro:after-swap", mobileHamburger);
 </script>
-

@@ -1,8 +1,8 @@
 ---
 import Announcement from "../components/Announcement.astro";
+import Experience from "../components/Experience.astro";
 import Layout from "../layouts/Layout.astro";
 import { projects } from "../lib/projects";
-import { work } from "../lib/websites";
 import { Image } from "astro:assets";
 import "../styles/global.css";
 
@@ -15,32 +15,10 @@ const pageTitle = "Projects";
 
     <Announcement/>
 
-    <div>
-        {
-            work.map((wrk: any) => (
-                <h1 class="font-krub font-bold text-5xl">Websites</h1>
-                <hr class="border-t-1 w-full border-indigo-200 mt-4" />
-                <div class="grid md:grid-cols-2 gap-16 items-center mt-16">
-                    <div class="flex flex-col gap-6">
-                        <a href={wrk.href} target="_blank" class="font-incon underline underline-offset-8 decoration-wavy decoration-2 decoration-violet-300 ">
-                            {wrk.title}
-                        </a>
-                        <p class="font-incon font-light text-xl text-indigo-100 ">
-                            At my current intership, I developed a static website using Astro, a modern front-end framework designed for speed and flexibility.
-                            This site showcases my ability to build optimized, performant web solutions that are not only visually engaging but also highly responsive.
-                        </p>
-                        <a href={wrk.href} target="_blank"  class="flex gap-2 font-incon w-fit text-xl group"> 
-                            Visit 
-                            <svg class="-mt-1 group-hover:translate-x-4 transition-transform ease-in-out duration-200" xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 24"><path fill="white" d="M4 11v2h20v2h2v-2h2v-2h-2V9h-2v2zm18-4h2v2h-2zm0 0h-2V5h2zm0 10h2v-2h-2zm0 0h-2v2h2z"/></svg>
-                        </a>
-                    </div>
-                    <Image src={wrk.image.url} alt={wrk.image.alt} class="rounded-md border-[1px] -mt-5 md:mt-0 border-indigo-200"/>
-                </div>
-      ))
-    }
-    </div>
+    <Experience id="experience"/>
+    
 
-   <div >
+   <div>
         <h1 class="font-krub font-bold text-5xl">Projects</h1>
         <hr class="border-t-1 w-full border-indigo-200 mt-4" />
         <div class="md:columns-2 mt-16">

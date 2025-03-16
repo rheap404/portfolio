@@ -1,31 +1,66 @@
 ---
 import Layout from "../layouts/Layout.astro";
-import "../styles/global.css";
+import { Image } from "astro:assets";
+import me from "../images/Rhea.png";
 
+import Experience from "../components/Experience.astro";
+import Footer from "../components/Footer.astro";
+
+import "../styles/global.css";
+import { Icon } from "astro-icon/components";
 const pageTitle = "Home";
 ---
 
 <Layout title={pageTitle}>
-  <div class="text-3xl my-12 md:mx-40 2xl:mx-60">
-    <h1 class="font-krub font-bold text-5xl">Hi, I'm Rhea!</h1>
-    <p class="font-incon font-light text-xl text-indigo-100 mt-12">
-      As a third year student at the University of Leeds, I am constantly looking for ways to improve my portfolio and explore new technologies. 
-      So far, my most challenging and rewarding projects was building a compiler for the JACK language from scratch in C.  
-      Currently, I’m working on a serverless architecture project using Azure Functions and FaaS.
-      <br />
-      <br />
-      In my work, I focus on building clean, efficient, and scalable solutions, whether I’m developing 
-      web applications or optimizing algorithms. I’m always eager to learn new technologies and take on 
-      complex challenges, and my goal is to solve real-world problems through innovative software solutions.
+  <div class="flex flex-col text-3xl my-12 gap-10 md:gap-36 md:mx-40 2xl:mx-60">
 
-      When I’m not coding, you’ll find me drawing digital art, listening to Chase Atlantic or Sabrina Carpenter, or developing ideas 
-      for my next project—be it related to art, technology, or something as specific as cybercrime investigations. 
-      <br />
-      I have a strong interest in combining creativity with computing, and I love working on projects that push the boundaries of both.
-      <br />
-      Feel free to explore my portfolio and reach out if you’re interested :)
+      <div class="flex gap-10 items-center h-[50vh] md:h-[60vh]">
+        <Image src={me} alt="Potfolio image" class="hidden md:block size-20 md:size-52 rounded-full"/>
+
+ 
+        <div class="flex flex-col gap-2">
+          <h1 class="font-krub font-bold text-5xl">Hi, I'm Rhea !</h1>
+          <small class="font-incon text-lg font-light opacity-70">Software Engineer</small>
+          <p class="font-incon font-light text-xl text-indigo-100 my-4">
+            I’m a third-year Computer Science student at the University of Leeds with experience in building engaging web applications interest in  tackling complex technical challenges. 
+            Explore my portfolio and feel free to get in touch!
+          </p>
+          <Footer />
+        </div>
       
+        
+      </div>  
 
-    </p>
+      <a
+        href="#after-hero"
+        class="hidden md:block absolute bottom-[100px] left-1/2 cursor-pointer text-white opacity-80 hover:opacity-100 transition-opacity"
+      >
+        <Icon
+          name="mdi:arrow-down-drop"
+          class="animate-bounce transition-opacity size-12"
+          id="scroll-arrow"
+        />
+      </a>
+
+      <Experience id="after-hero" classAdd="md:min-h-[45vh]"/>
+
+      <a href="projects/#experience" class="self-center w-fit md:-mt-20 cursor-pointer transition-all duration-300 hover:scale-105 bg-violet-100 bg-opacity-10 hover:bg-inherit text-lg px-4 py-2 border-[1px] border-violet-300 rounded-lg">View More</a>
   </div>
 </Layout>
+
+
+<script>
+    function update() {
+    const chevron = document.getElementById("scroll-arrow");
+    if (chevron) {
+      if (window.scrollY > 150) {
+        chevron.classList.add("opacity-0");
+      } else {
+        chevron.classList.remove("opacity-0");
+      }
+    }
+  }
+  window.addEventListener("scroll", update, { passive: true });
+  window.addEventListener("DOMContentLoaded", update);
+
+</script>

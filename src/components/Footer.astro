@@ -1,17 +1,33 @@
 ---
 import { Icon } from "astro-icon/components";
 
+const links = [
+  {
+    icon : "mdi:linkedin",
+    link: "https://www.linkedin.com/in/rp404/"
+  },
+  {
+    icon : "mdi:github",
+    link: "https://github.com/rheap404"
+  },
+  {
+    icon : "mdi:email",
+    link: "mailto:rheaprakash2004@gmail.com"
+  },
+  {
+    icon : "mdi:file-document",
+    link: "../src/images/Rhea-Resume.pdf"
+  }
+]
 
 ---
 
-<footer class="md:mx-40 2xl:mx-60">
+<footer>
   <div class="flex gap-6">
-    <a href="https://www.linkedin.com/in/rp404/" target="_blank">
-      <Icon name="mdi:linkedin" size={28}/>
-    </a>
-
-    <a href="https://github.com/rheap404" target="_blank">
-      <Icon name="mdi:github" size={28} />
-    </a>
+    {links.map((link)=>(
+        <a href={link.link} target="_blank" class="transition-all duration-300 hover:text-violet-300 hover:scale-[120%]">
+          <Icon name={link.icon} size={28}/>
+        </a>
+      ))}
   </div>
 </footer>
