@@ -6,9 +6,16 @@ export default {
 			fontFamily: {
 			// Headings
 			darker: "Darker Grotesque",
+				
 			// Body 
 			krub: "Oxygen",
 			incon: "Tajawal",
+			
+			// Fancy
+			cormorant: "Cormorant",
+			
+			// Fancy body
+			noto: "Kantumruy Pro"
 		},},
 	},
 	plugins: [],

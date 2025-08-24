@@ -1,0 +1,52 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import { Image } from "astro:assets";
+import { pinterest } from "../../lib/pinterest";
+
+import "../../styles/global.css";
+import { Icon } from "astro-icon/components";
+const pageTitle = "Pinterest";
+---
+
+<!-- Travel, Coffee Corners, Dine-Ins, Fits, London <3 -->
+<Layout title={pageTitle} header="pinterest">
+  <div class="flex flex-col my-16 gap-10 md:gap-16 md:mx-40 2xl:mx-60">
+    <div class="text-center font-noto font-light text-indigo-50">
+      <div class="text-2xl">
+        Welcome to my little corner of Pinterest-inspired life ✨
+      </div>
+      <br />
+      <a
+        href="https://in.pinterest.com/EtherealByR/"
+        target="_blank"
+        class="text-indigo-200"
+      >
+        @EtherealByR
+      </a>
+    </div>
+    <div class="flex flex-col md:flex-row md:flex-wrap md:justify-start gap-8">
+      {
+        pinterest.map((pin: any, index: number) => (
+          <div
+            class={`relative rounded-md overflow-hidden w-full
+                ${index === 2 ? "md:w-2/3 mx-auto" : "md:w-[48%] aspect-square"}`}
+          >
+            {/* <a href={pin.link}> */}
+            <Image
+              src={pin.image.url}
+              alt={pin.image.alt}
+              class="w-full h-full object-cover "
+            />
+            <div class="absolute bottom-0 left-0 right-0 top-auto h-40 bg-gradient-to-t from-slate-900" />
+            <div class="absolute bottom-1 md:bottom-0 left-0 right-0 text-white p-4 md:py-4 z-10">
+              <h1 class="font-cormorant text-indigo-100 font-medium text-xl">
+                {pin.title}
+              </h1>
+            </div>
+            {/* </a> */}
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</Layout>
