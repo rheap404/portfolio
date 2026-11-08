@@ -1,0 +1,640 @@
+---
+// src/pages/thailand.astro (or src/components/ThailandTrip.astro)
+
+interface Day {
+    n: string; // tab label
+    c: "travel" | "phuket" | "phiphi" | "oldtown" | "chiangrai" | "bangkok";
+    d: string; // full date
+    t: string; // title
+    s: string; // where you sleep
+    r: [string, string, string?][]; // [time, title, note?]
+    m: string[]; // more things to do
+}
+
+const accents: Record<Day["c"], string> = {
+    travel: "#6b7683",
+    phuket: "#2e75b6",
+    phiphi: "#0e8a8a",
+    oldtown: "#8a4bc0",
+    chiangrai: "#548235",
+    bangkok: "#c55a11",
+};
+
+const days: Day[] = [
+    {
+        n: "Mon 9",
+        c: "travel",
+        d: "Mon 9 Nov",
+        t: "Fly in, then south Phuket",
+        s: "Phuket Emerald Beach Resort, Karon",
+        r: [
+            [
+                "Sun 23:15",
+                "Be at Mumbai T2 (BOM)",
+                "Flight leaves 02:15 on the 9th",
+            ],
+            ["02:15", "Mumbai → Bengaluru", "Lands 04:05 in Terminal 1"],
+            [
+                "04:05",
+                "Move to Terminal 2 at BLR",
+                "2h 15m layover. Ask if bags go through to Phuket",
+            ],
+            ["06:20", "Bengaluru → Phuket", "Lands 11:30"],
+            ["~12:45", "Taxi to Karon", "45–90 min, about ₹2,900"],
+            ["~13:45", "Hotel: drop bags", "Check-in is usually 14:00"],
+            [
+                "15:15",
+                "Big Buddha",
+                "Open about 09:00–18:00 (confirm). Cover shoulders and knees",
+            ],
+            [
+                "17:15",
+                "Promthep Cape sunset",
+                "Sunset about 17:50, arrive early",
+            ],
+            [
+                "18:50",
+                "Dinner at Rawai Seafood Market",
+                "Pick seafood by weight, cook it across the road",
+            ],
+            ["~21:00", "Back at the hotel", "Early night"],
+        ],
+        m: [
+            "Kata Beach swim",
+            "Kata Night Plaza for easy food",
+            "Wat Chalong, near Big Buddha",
+        ],
+    },
+    {
+        n: "Tue 10",
+        c: "phuket",
+        d: "Tue 10 Nov",
+        t: "Free beach day",
+        s: "Phuket Emerald Beach Resort, Karon",
+        r: [
+            ["07:00", "Swim at Karon Beach", "Check the flags first"],
+            ["08:30", "Breakfast", "Check if your booking includes it"],
+            [
+                "10:00",
+                "Option: Kata Noi or Nai Harn",
+                "Pick one, both are calm",
+            ],
+            ["13:00", "Option: Wat Chalong", "Open about 08:00–17:00"],
+            ["14:00", "Lunch, pool, rest", ""],
+            ["16:30", "Option: Karon Viewpoint", "Three-beach view at sunset"],
+            ["18:30", "Dinner", "Kata Night Plaza from about 18:00"],
+        ],
+        m: [
+            "Half-day snorkel to Racha or Coral Island (from Chalong Pier)",
+            "Thai massage, about ₹870–1,450",
+            "Cooking class (book ahead)",
+        ],
+    },
+    {
+        n: "Wed 11",
+        c: "phiphi",
+        d: "Wed 11 Nov",
+        t: "Birthday: Phi Phi islands",
+        s: "Phuket Emerald Beach Resort, Karon",
+        r: [
+            [
+                "~07:30",
+                "Hotel pickup",
+                "Andaman Surprise. Confirm the exact time on your voucher",
+            ],
+            ["~09:30", "Speed catamaran to Phi Phi", "About 1 hour each way"],
+            [
+                "~10:15",
+                "Maya Bay",
+                "Walk the beach, no swimming. 400 THB park fee if not included",
+            ],
+            ["~11:30", "Pileh Lagoon", "Swim and snorkel"],
+            ["~12:30", "Lunch", "Check it is on your voucher"],
+            ["~13:30", "Bamboo Island", "Beach and snorkelling"],
+            ["~14:30", "Monkey Beach", "Watch, do not feed"],
+            ["~17:30", "Back at the hotel", ""],
+            [
+                "19:30",
+                "Birthday dinner on the beach",
+                "Book a table by the sand",
+            ],
+        ],
+        m: [
+            "Order of stops varies by operator",
+            "Bring reef-safe sunscreen and motion tablets if needed",
+        ],
+    },
+    {
+        n: "Thu 12",
+        c: "oldtown",
+        d: "Thu 12 Nov",
+        t: "Karon to Phuket Old Town",
+        s: "The Blanket Hotel Phuket",
+        r: [
+            ["08:00", "Slow morning", "Breakfast and a last swim"],
+            ["11:00", "Check out, taxi to Old Town", "About 30–40 min"],
+            ["11:45", "Drop bags at the hotel", "Check-in is usually 14:00"],
+            ["12:30", "Lunch", "Around Thalang Road"],
+            ["13:30", "Old Town walk", "Thalang Road, Soi Romanee, Dibuk Road"],
+            ["14:45", "Chinpracha House", "Open until about 16:30"],
+            ["15:45", "Thai Hua Museum", "Open until about 17:00"],
+            ["18:30", "Dinner in Old Town", ""],
+            ["21:00", "Pack and sleep", "Taxi booked for 05:15"],
+        ],
+        m: [
+            "Khao Rang viewpoint",
+            "Jui Tui and Put Jaw shrines",
+            "Tu Kab Khao for dinner (11:00–21:00)",
+            "Big Buddha if you skipped it on Monday",
+        ],
+    },
+    {
+        n: "Fri 13",
+        c: "chiangrai",
+        d: "Fri 13 Nov",
+        t: "Fly to Chiang Rai",
+        s: "Diamond Park Inn Chiangrai & Resort",
+        r: [
+            ["05:15", "Taxi to Phuket airport", "About 40 min, about ₹2,000"],
+            [
+                "08:30",
+                "Flight to Chiang Rai",
+                "Thai Vietjet VZ 400, lands 10:35",
+            ],
+            ["10:35", "Taxi to the hotel", "About ₹520. Drop bags, lunch"],
+            [
+                "13:30",
+                "White Temple",
+                "1.5–2 hrs. No shorts above the knee. About ₹580",
+            ],
+            ["16:30", "Blue Temple", "Best at golden hour, open to 20:00"],
+            ["18:00", "Night Bazaar dinner", "About 17:00–23:00"],
+            ["19:00", "Clock Tower light show", "Shows at 19:00, 20:00, 21:00"],
+        ],
+        m: [
+            "Wat Phra Kaew (Chiang Rai), about 07:00–17:00",
+            "Golden Triangle needs a full day, so it no longer fits",
+        ],
+    },
+    {
+        n: "Sat 14",
+        c: "chiangrai",
+        d: "Sat 14 Nov",
+        t: "Black House, then Bangkok",
+        s: "Norn Riverside Bangkok Hotel",
+        r: [
+            ["09:00", "Black House", "Opens 09:00. About 1.5 hrs, about ₹230"],
+            ["10:45", "Back to the hotel, check out", ""],
+            ["11:30", "Early lunch", ""],
+            ["12:45", "Taxi to the airport", "Be there by about 13:15"],
+            [
+                "15:20",
+                "Fly to Bangkok",
+                "Thai Vietjet VZ 133, lands 16:45 at BKK",
+            ],
+            ["~17:30", "Taxi to the hotel", "30–60 min, about ₹2,100"],
+            [
+                "~19:00",
+                "Dinner and a river stroll",
+                "Asiatique is open to 24:00",
+            ],
+        ],
+        m: [
+            "Wat Huai Pla Kang (about 6 km west of centre)",
+            "Saturday Walking Street is not possible with a 15:20 flight",
+        ],
+    },
+    {
+        n: "Sun 15",
+        c: "bangkok",
+        d: "Sun 15 Nov",
+        t: "Bangkok temples and river",
+        s: "Norn Riverside Bangkok Hotel",
+        r: [
+            [
+                "08:30",
+                "Grand Palace",
+                "Open 08:30–15:30. Cover shoulders and knees. About ₹1,450",
+            ],
+            ["11:30", "Wat Pho", "Reclining Buddha. About ₹870"],
+            ["13:00", "Lunch by the river", "Tha Tien area"],
+            ["14:15", "Ferry to Wat Arun", "4 THB each way"],
+            ["14:30", "Wat Arun", "Open to 18:00. About ₹580"],
+            ["16:30", "Chao Phraya river boat", "Orange flag, 15 THB"],
+            [
+                "18:30",
+                "Dinner cruise or Asiatique",
+                "Cruise boards about 19:00",
+            ],
+        ],
+        m: [
+            "Chatuchak Weekend Market (open today)",
+            "Chinatown street food from about 18:00",
+            "Thai massage near Wat Pho",
+        ],
+    },
+    {
+        n: "Mon 16",
+        c: "travel",
+        d: "Mon 16 Nov",
+        t: "Fly home at 20:00",
+        s: "Check out of Norn Riverside",
+        r: [
+            ["08:00", "Slow breakfast", ""],
+            [
+                "09:30",
+                "Option: Jim Thompson House or Wat Saket",
+                "Or a massage",
+            ],
+            [
+                "12:00",
+                "Check out, lunch",
+                "Leave bags at the hotel if you like",
+            ],
+            ["~15:30", "Leave for Suvarnabhumi", "30–60 min, about ₹2,100"],
+            [
+                "~17:00",
+                "Reach the airport",
+                "3 hrs before an international flight",
+            ],
+            ["20:00", "Bangkok → New Delhi", "Lands 23:00, Terminal 3"],
+        ],
+        m: [
+            "Lumpini Park",
+            "Malls: ICONSIAM, Siam Paragon, MBK (about 10:00–22:00)",
+        ],
+    },
+];
+---
+
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1, viewport-fit=cover"
+        />
+        <title>Thailand Trip: Day by Day</title>
+    </head>
+    <body>
+        <header>
+            <h1>Thailand · 9–16 Nov 2026</h1>
+            <nav id="nav" aria-label="Days">
+                {
+                    days.map((day, i) => (
+                        <button
+                            type="button"
+                            data-i={i}
+                            aria-current={i === 0 ? "true" : "false"}
+                        >
+                            {day.n}
+                        </button>
+                    ))
+                }
+            </nav>
+        </header>
+
+        <main id="main">
+            {
+                days.map((day, i) => (
+                    <section
+                        class="day"
+                        data-i={i}
+                        style={`--acc:${accents[day.c]}`}
+                        hidden={i !== 0}
+                    >
+                        <div class="hero">
+                            <small>
+                                {day.d} · Day {i + 1} of {days.length}
+                            </small>
+                            <h2>{day.t}</h2>
+                        </div>
+
+                        <div class="stay">
+                            <b>Sleep</b>
+                            {day.s}
+                        </div>
+
+                        <ol>
+                            {day.r.map(([time, title, note]) => (
+                                <li>
+                                    <div class="t">{time}</div>
+                                    <div class="x">
+                                        <b>{title}</b>
+                                        {note && <span>{note}</span>}
+                                    </div>
+                                </li>
+                            ))}
+                        </ol>
+
+                        <details>
+                            <summary>More things to do</summary>
+                            <ul>
+                                {day.m.map((item) => (
+                                    <li>{item}</li>
+                                ))}
+                            </ul>
+                        </details>
+
+                        <div class="pn">
+                            <button type="button" class="pv" disabled={i === 0}>
+                                ← Back
+                            </button>
+                            <button
+                                type="button"
+                                class="nx"
+                                disabled={i === days.length - 1}
+                            >
+                                Next →
+                            </button>
+                        </div>
+                    </section>
+                ))
+            }
+        </main>
+    </body>
+</html>
+
+<style is:global>
+    :root {
+        --bg: #f4f6f8;
+        --card: #fff;
+        --fg: #1d2733;
+        --mut: #5f6b7a;
+        --line: #e1e6ec;
+        --acc: #2e75b6;
+        box-sizing: border-box;
+        padding-top: env(safe-area-inset-top, 0px);
+        padding-bottom: env(safe-area-inset-bottom, 0px);
+    }
+    @media (prefers-color-scheme: dark) {
+        :root:not([data-theme="light"]) {
+            --bg: #10151b;
+            --card: #1a222b;
+            --fg: #e8edf2;
+            --mut: #9aa7b5;
+            --line: #2a3541;
+        }
+    }
+    :root[data-theme="dark"] {
+        --bg: #10151b;
+        --card: #1a222b;
+        --fg: #e8edf2;
+        --mut: #9aa7b5;
+        --line: #2a3541;
+    }
+    html {
+        scroll-padding-top: env(safe-area-inset-top, 0px);
+    }
+    *,
+    *::before,
+    *::after {
+        box-sizing: border-box;
+    }
+    body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--fg);
+        font:
+            16px/1.45 -apple-system,
+            system-ui,
+            "Segoe UI",
+            Roboto,
+            Arial,
+            sans-serif;
+    }
+    body::before {
+        content: "";
+        position: fixed;
+        inset: 0 0 auto;
+        height: env(safe-area-inset-top, 0px);
+        background: var(--bg);
+        z-index: 6;
+    }
+    header {
+        position: sticky;
+        top: env(safe-area-inset-top, 0px);
+        z-index: 5;
+        background: var(--bg);
+        border-bottom: 1px solid var(--line);
+    }
+    h1 {
+        font-size: 15px;
+        margin: 0;
+        padding: 10px 14px 4px;
+        color: var(--mut);
+        font-weight: 600;
+    }
+    #nav {
+        display: flex;
+        gap: 8px;
+        overflow-x: auto;
+        padding: 4px 14px 10px;
+        scrollbar-width: none;
+    }
+    #nav button {
+        flex: 0 0 auto;
+        border: 1px solid var(--line);
+        background: var(--card);
+        color: var(--fg);
+        border-radius: 999px;
+        padding: 7px 13px;
+        font: 600 14px inherit;
+        font-family: inherit;
+    }
+    #nav button[aria-current="true"] {
+        background: var(--acc);
+        border-color: var(--acc);
+        color: #fff;
+    }
+    main {
+        padding: 14px;
+        max-width: 640px;
+        margin: 0 auto;
+    }
+    .day[hidden] {
+        display: none;
+    }
+    .hero {
+        background: var(--acc);
+        color: #fff;
+        border-radius: 16px;
+        padding: 16px;
+    }
+    .hero small {
+        opacity: 0.85;
+        font-weight: 600;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+    }
+    .hero h2 {
+        margin: 4px 0 0;
+        font-size: 22px;
+        line-height: 1.2;
+    }
+    .stay {
+        margin: 12px 0;
+        background: var(--card);
+        border: 1px solid var(--line);
+        border-left: 5px solid var(--acc);
+        border-radius: 12px;
+        padding: 10px 12px;
+        font-size: 14px;
+    }
+    .stay b {
+        display: block;
+        color: var(--mut);
+        font-size: 12px;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+    }
+    ol {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+    }
+    ol > li {
+        display: flex;
+        gap: 12px;
+        background: var(--card);
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        padding: 11px 12px;
+        margin-bottom: 8px;
+    }
+    .t {
+        flex: 0 0 64px;
+        font-weight: 700;
+        color: var(--acc);
+        font-size: 14px;
+    }
+    .x b {
+        display: block;
+    }
+    .x span {
+        display: block;
+        color: var(--mut);
+        font-size: 14px;
+        margin-top: 2px;
+    }
+    details {
+        background: var(--card);
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        padding: 10px 12px;
+        margin: 14px 0;
+    }
+    summary {
+        font-weight: 700;
+        cursor: pointer;
+    }
+    details ul {
+        margin: 8px 0 0;
+        padding-left: 18px;
+        color: var(--mut);
+        font-size: 14px;
+    }
+    details li {
+        padding: 2px 0;
+    }
+    .pn {
+        display: flex;
+        gap: 10px;
+        margin: 16px 0 28px;
+    }
+    .pn button {
+        flex: 1;
+        padding: 13px;
+        border-radius: 12px;
+        border: 1px solid var(--line);
+        background: var(--card);
+        color: var(--fg);
+        font: 600 15px inherit;
+        font-family: inherit;
+    }
+    .pn button:disabled {
+        opacity: 0.35;
+    }
+</style>
+
+<script>
+    const nav = document.getElementById("nav")!;
+    const tabs = Array.from(nav.querySelectorAll<HTMLButtonElement>("button"));
+    const sections = Array.from(document.querySelectorAll<HTMLElement>(".day"));
+    let cur = 0;
+
+    function show(i: number, keep = false) {
+        i = Math.max(0, Math.min(sections.length - 1, i));
+        cur = i;
+
+        sections.forEach((s, k) => {
+            s.hidden = k !== i;
+        });
+        tabs.forEach((b, k) =>
+            b.setAttribute("aria-current", k === i ? "true" : "false"),
+        );
+        tabs[i].scrollIntoView({ inline: "center", block: "nearest" });
+
+        // Sync the header accent with the visible day
+        const acc = getComputedStyle(sections[i]).getPropertyValue("--acc");
+        document.documentElement.style.setProperty("--acc", acc);
+
+        if (!keep) {
+            try {
+                history.replaceState(null, "", "#d" + (i + 1));
+            } catch (e) {}
+        }
+        try {
+            localStorage.setItem("day", String(i));
+        } catch (e) {}
+        window.scrollTo(0, 0);
+    }
+
+    tabs.forEach((b, i) => b.addEventListener("click", () => show(i)));
+    sections.forEach((s) => {
+        s.querySelector(".pv")!.addEventListener("click", () => show(cur - 1));
+        s.querySelector(".nx")!.addEventListener("click", () => show(cur + 1));
+    });
+
+    function start() {
+        const m = /^#d(\d)$/.exec(location.hash);
+        let i = 0;
+        if (m) {
+            i = +m[1] - 1;
+        } else {
+            try {
+                const s = localStorage.getItem("day");
+                if (s !== null) i = +s || 0;
+            } catch (e) {}
+        }
+        show(i, true);
+    }
+
+    window.addEventListener("hashchange", () => {
+        const m = /^#d(\d)$/.exec(location.hash);
+        if (m && +m[1] - 1 !== cur) show(+m[1] - 1, true);
+    });
+
+    let sx = 0,
+        sy = 0;
+    document.addEventListener(
+        "touchstart",
+        (e) => {
+            sx = e.touches[0].clientX;
+            sy = e.touches[0].clientY;
+        },
+        { passive: true },
+    );
+    document.addEventListener(
+        "touchend",
+        (e) => {
+            const dx = e.changedTouches[0].clientX - sx;
+            const dy = e.changedTouches[0].clientY - sy;
+            if (Math.abs(dx) > 70 && Math.abs(dy) < 40)
+                show(cur + (dx < 0 ? 1 : -1));
+        },
+        { passive: true },
+    );
+
+    start();
+</script>
