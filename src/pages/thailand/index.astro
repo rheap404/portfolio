@@ -1,15 +1,25 @@
 ---
-// src/pages/thailand.astro (or src/components/ThailandTrip.astro)
+import { places, mapUrl } from "../../lib/places.ts";
 
 interface Day {
-    n: string; // tab label
+    n: string; // tab label, must match the day names used in places.ts
     c: "travel" | "phuket" | "phiphi" | "oldtown" | "chiangrai" | "bangkok";
     d: string; // full date
     t: string; // title
+    nt?: string[]; // to-do box
     s: string; // where you sleep
-    r: [string, string, string?][]; // [time, title, note?]
+    r: [string, string, string?, string?][]; // [time, title, note?, place name from places.ts for the map link?]
     m: string[]; // more things to do
 }
+
+const byName = new Map(places.map((p) => [p.name, p]));
+const linkFor = (name?: string) => {
+    if (!name) return undefined;
+    const p = byName.get(name);
+    if (!p) console.warn(`places.ts has no place called "${name}"`);
+    return p ? mapUrl(p) : undefined;
+};
+const placesFor = (n: string) => places.filter((p) => p.days.includes(n));
 
 const accents: Record<Day["c"], string> = {
     travel: "#6b7683",
@@ -25,7 +35,12 @@ const days: Day[] = [
         n: "Mon 9",
         c: "travel",
         d: "Mon 9 Nov",
-        t: "Fly in, then south Phuket",
+        t: "Fly in to Phuket, touristy day",
+        nt: [
+            "Grab taxi to the hotel",
+            "Ask the hotel to book a cab with a driver for the rest of the day",
+            "At Mumbai check-in, ask if bags go through to Phuket (BLR T1 → T2)",
+        ],
         s: "Phuket Emerald Beach Resort, Karon",
         r: [
             [
@@ -34,60 +49,109 @@ const days: Day[] = [
                 "Flight leaves 02:15 on the 9th",
             ],
             ["02:15", "Mumbai → Bengaluru", "Lands 04:05 in Terminal 1"],
+            ["04:05", "Move to Terminal 2 at BLR", "2h 15m layover"],
             [
-                "04:05",
-                "Move to Terminal 2 at BLR",
-                "2h 15m layover. Ask if bags go through to Phuket",
+                "06:20",
+                "Bengaluru → Phuket",
+                "Lands 11:30",
+                "Phuket International Airport",
             ],
-            ["06:20", "Bengaluru → Phuket", "Lands 11:30"],
             ["~12:45", "Taxi to Karon", "45–90 min, about ₹2,900"],
-            ["~13:45", "Hotel: drop bags", "Check-in is usually 14:00"],
+            [
+                "~13:45",
+                "Hotel: drop bags",
+                "Check-in is usually 14:00. Ask for a room near the lobby",
+                "Phuket Emerald Beach Resort",
+            ],
             [
                 "15:15",
                 "Big Buddha",
-                "Open about 09:00–18:00 (confirm). Cover shoulders and knees",
+                "Open about 09:00–18:00. Cover shoulders and knees",
+                "Big Buddha Phuket",
             ],
             [
                 "17:15",
                 "Promthep Cape sunset",
                 "Sunset about 17:50, arrive early",
+                "Promthep Cape",
             ],
             [
                 "18:50",
                 "Dinner at Rawai Seafood Market",
                 "Pick seafood by weight, cook it across the road",
+                "Rawai Seafood Market",
             ],
             ["~21:00", "Back at the hotel", "Early night"],
         ],
         m: [
-            "Kata Beach swim",
             "Kata Night Plaza for easy food",
-            "Wat Chalong, near Big Buddha",
+            "Wat Chalong, near Big Buddha (open about 08:00–17:00)",
         ],
     },
     {
         n: "Tue 10",
         c: "phuket",
         d: "Tue 10 Nov",
-        t: "Free beach day",
+        t: "Patong day and water sports",
+        nt: [
+            "Reserve Café del Mar for sunset (one listing says entry is by reservation)",
+            "Buy the birthday cover-up today, you can’t shop on Wednesday",
+            "Check the weather and the flags before any water sport",
+        ],
         s: "Phuket Emerald Beach Resort, Karon",
         r: [
-            ["07:00", "Swim at Karon Beach", "Check the flags first"],
-            ["08:30", "Breakfast", "Check if your booking includes it"],
+            [
+                "07:00",
+                "Swim at Karon Beach",
+                "Optional. Check the flags first",
+                "Karon Beach",
+            ],
+            ["08:30", "Breakfast at hotel"],
+            [
+                "09:30",
+                "Taxi to Patong",
+                "About 20–30 min (est.). Go in the morning, showers are likelier later",
+                "Patong Beach",
+            ],
             [
                 "10:00",
-                "Option: Kata Noi or Nai Harn",
-                "Pick one, both are calm",
+                "Parasailing and banana boat",
+                "About ₹5,800 pp for both. Ask the total price first. Skip jet skis, or film the whole machine before riding. Tourist Police: 1155",
             ],
-            ["13:00", "Option: Wat Chalong", "Open about 08:00–17:00"],
-            ["14:00", "Lunch, pool, rest", ""],
-            ["16:30", "Option: Karon Viewpoint", "Three-beach view at sunset"],
-            ["18:30", "Dinner", "Kata Night Plaza from about 18:00"],
+            [
+                "12:30",
+                "Lunch at Kan’s Haus",
+                "On the beach road, mains about ₹290–1,010. Open 09:30–02:30",
+                "Kan's Haus Cafe and Bistro",
+            ],
+            [
+                "13:30",
+                "Beachwear and birthday cover-up",
+                "Malin Plaza or Jungceylon. Karon Temple Market (Tue and Fri) is the backup",
+                "Malin Plaza Patong",
+            ],
+            ["15:00", "Back to the hotel", "Pool and rest"],
+            [
+                "17:00",
+                "Massage",
+                "Thai massage and relax",
+                "Sunshine Massage 2 Karon beach",
+            ],
+            [
+                "20:00",
+                "Dinner ??",
+                "At Café del Mar or back near the hotel. Home by about 21:30. Wednesday pickup is 08:40",
+            ],
         ],
         m: [
+            "Sunset at Nomad Beach Club, Bang Tao instead (further north, usually open 09:00–01:00)",
+            "Kata Noi or Nai Harn beach instead of Patong",
             "Half-day snorkel to Racha or Coral Island (from Chalong Pier)",
+            "Phang Nga Bay plankton night, about ₹11,500–14,500 pp, 14:00–22:00. Replaces Patong",
+            "Mantra Forest Spa (Phang Nga), private car about ₹7,500. Takes the afternoon",
             "Thai massage, about ₹870–1,450",
-            "Cooking class (book ahead)",
+            "Longtail to Freedom Beach, about ₹1,450–1,730 return, ask the price first",
+            "Banzaan Market is on Nanai Road (flood area), check it is open",
         ],
     },
     {
@@ -95,28 +159,33 @@ const days: Day[] = [
         c: "phiphi",
         d: "Wed 11 Nov",
         t: "Birthday: Phi Phi islands",
+        nt: [
+            "Book the birthday dinner today ?",
+            "Ask Andaman Surprise what happens if weather cancels the boat",
+        ],
         s: "Phuket Emerald Beach Resort, Karon",
         r: [
             [
-                "~07:30",
+                "8:40-9:00 am",
                 "Hotel pickup",
                 "Andaman Surprise. Confirm the exact time on your voucher",
             ],
             ["~09:30", "Speed catamaran to Phi Phi", "About 1 hour each way"],
-            [
-                "~10:15",
-                "Maya Bay",
-                "Walk the beach, no swimming. 400 THB park fee if not included",
-            ],
+            ["~10:15", "Maya Bay", "Walk the beach, no swimming"],
             ["~11:30", "Pileh Lagoon", "Swim and snorkel"],
-            ["~12:30", "Lunch", "Check it is on your voucher"],
+            ["~12:30", "Lunch", "Included with booking"],
             ["~13:30", "Bamboo Island", "Beach and snorkelling"],
             ["~14:30", "Monkey Beach", "Watch, do not feed"],
-            ["~17:30", "Back at the hotel", ""],
+            [
+                "~17:30",
+                "Back at the hotel",
+                "Sunset is about 17:50, so dinner will be after dark",
+            ],
             [
                 "19:30",
-                "Birthday dinner on the beach",
-                "Book a table by the sand",
+                "Birthday dinner: KIRI Restaurant or Tann Beach Club",
+                "",
+                "KIRI Restaurant, Karon Beach or Tann Beach Club",
             ],
         ],
         m: [
@@ -129,23 +198,59 @@ const days: Day[] = [
         c: "oldtown",
         d: "Thu 12 Nov",
         t: "Karon to Phuket Old Town",
+        nt: [
+            "Decide: slow morning, or the elephant sanctuary. Book it today if yes",
+            "Book the 05:15 taxi for tomorrow",
+        ],
         s: "The Blanket Hotel Phuket",
         r: [
             ["08:00", "Slow morning", "Breakfast and a last swim"],
+            [
+                "08:30",
+                "Option instead: Phuket Elephant Sanctuary",
+                "Back about 12:00, then straight to Old Town. Canopy walk about ₹5,500 or half-day about ₹8,700. Confirm it is the sanctuary you meant",
+                "Phuket Elephant Sanctuary",
+            ],
             ["11:00", "Check out, taxi to Old Town", "About 30–40 min"],
-            ["11:45", "Drop bags at the hotel", "Check-in is usually 14:00"],
-            ["12:30", "Lunch", "Around Thalang Road"],
-            ["13:30", "Old Town walk", "Thalang Road, Soi Romanee, Dibuk Road"],
-            ["14:45", "Chinpracha House", "Open until about 16:30"],
-            ["15:45", "Thai Hua Museum", "Open until about 17:00"],
-            ["18:30", "Dinner in Old Town", ""],
+            [
+                "11:45",
+                "Drop bags at the hotel",
+                "Check-in is usually 14:00",
+                "The Blanket Hotel Phuket",
+            ],
+            ["12:30", "Lunch", "Around Thalang Road", "Thalang Road"],
+            [
+                "13:30",
+                "Old Town walk",
+                "Thalang Road, Soi Romanee, Dibuk Road",
+                "Soi Romanee",
+            ],
+            [
+                "14:45",
+                "Chinpracha House",
+                "Open until about 16:30",
+                "Chinpracha House",
+            ],
+            [
+                "15:45",
+                "Thai Hua Museum",
+                "Open until about 17:00",
+                "Thai Hua Museum",
+            ],
+            [
+                "17:30",
+                "Chillva Market: vintage clothes and dinner",
+                "Open 17:00–23:00 Monday to Saturday. Be back by about 21:00",
+                "Chillva Market",
+            ],
             ["21:00", "Pack and sleep", "Taxi booked for 05:15"],
         ],
         m: [
+            "Ban Boran Textiles, a vintage boutique in Old Town",
             "Khao Rang viewpoint",
             "Jui Tui and Put Jaw shrines",
             "Tu Kab Khao for dinner (11:00–21:00)",
-            "Big Buddha if you skipped it on Monday",
+            "The mango drink",
         ],
     },
     {
@@ -155,21 +260,47 @@ const days: Day[] = [
         t: "Fly to Chiang Rai",
         s: "Diamond Park Inn Chiangrai & Resort",
         r: [
-            ["05:15", "Taxi to Phuket airport", "About 40 min, about ₹2,000"],
+            [
+                "05:15",
+                "Taxi to Phuket airport",
+                "About 40 min, about ₹2,000",
+                "Phuket International Airport",
+            ],
             [
                 "08:30",
                 "Flight to Chiang Rai",
                 "Thai Vietjet VZ 400, lands 10:35",
             ],
-            ["10:35", "Taxi to the hotel", "About ₹520. Drop bags, lunch"],
+            [
+                "10:35",
+                "Taxi to the hotel",
+                "About ₹520. Drop bags, lunch",
+                "Diamond Park Inn Chiangrai & Resort",
+            ],
             [
                 "13:30",
                 "White Temple",
                 "1.5–2 hrs. No shorts above the knee. About ₹580",
+                "White Temple (Wat Rong Khun)",
             ],
-            ["16:30", "Blue Temple", "Best at golden hour, open to 20:00"],
-            ["18:00", "Night Bazaar dinner", "About 17:00–23:00"],
-            ["19:00", "Clock Tower light show", "Shows at 19:00, 20:00, 21:00"],
+            [
+                "16:30",
+                "Blue Temple",
+                "Best at golden hour, open to 20:00",
+                "Blue Temple (Wat Rong Suea Ten)",
+            ],
+            [
+                "18:00",
+                "Night Bazaar dinner",
+                "About 17:00–23:00",
+                "Chiang Rai Night Bazaar",
+            ],
+            [
+                "19:00",
+                "Clock Tower light show",
+                "Shows at 19:00, 20:00, 21:00",
+                "Chiang Rai Clock Tower",
+            ],
         ],
         m: [
             "Wat Phra Kaew (Chiang Rai), about 07:00–17:00",
@@ -183,20 +314,42 @@ const days: Day[] = [
         t: "Black House, then Bangkok",
         s: "Norn Riverside Bangkok Hotel",
         r: [
-            ["09:00", "Black House", "Opens 09:00. About 1.5 hrs, about ₹230"],
-            ["10:45", "Back to the hotel, check out", ""],
+            [
+                "09:00",
+                "Black House",
+                "Opens 09:00. About 1.5 hrs, about ₹230",
+                "Black House (Baan Dam Museum)",
+            ],
+            [
+                "10:45",
+                "Back to the hotel, check out",
+                "",
+                "Diamond Park Inn Chiangrai & Resort",
+            ],
             ["11:30", "Early lunch", ""],
-            ["12:45", "Taxi to the airport", "Be there by about 13:15"],
+            [
+                "12:45",
+                "Taxi to the airport",
+                "Be there by about 13:15",
+                "Chiang Rai International Airport",
+            ],
             [
                 "15:20",
                 "Fly to Bangkok",
                 "Thai Vietjet VZ 133, lands 16:45 at BKK",
+                "Suvarnabhumi Airport",
             ],
-            ["~17:30", "Taxi to the hotel", "30–60 min, about ₹2,100"],
+            [
+                "~17:30",
+                "Taxi to the hotel",
+                "30–60 min, about ₹2,100",
+                "Norn Riverside Bangkok Hotel",
+            ],
             [
                 "~19:00",
                 "Dinner and a river stroll",
                 "Asiatique is open to 24:00",
+                "Asiatique The Riverfront",
             ],
         ],
         m: [
@@ -215,20 +368,23 @@ const days: Day[] = [
                 "08:30",
                 "Grand Palace",
                 "Open 08:30–15:30. Cover shoulders and knees. About ₹1,450",
+                "Grand Palace",
             ],
-            ["11:30", "Wat Pho", "Reclining Buddha. About ₹870"],
-            ["13:00", "Lunch by the river", "Tha Tien area"],
+            ["11:30", "Wat Pho", "Reclining Buddha. About ₹870", "Wat Pho"],
+            ["13:00", "Lunch by the river", "Tha Tien area", "Tha Tien Pier"],
             ["14:15", "Ferry to Wat Arun", "4 THB each way"],
-            ["14:30", "Wat Arun", "Open to 18:00. About ₹580"],
+            ["14:30", "Wat Arun", "Open to 18:00. About ₹580", "Wat Arun"],
             ["16:30", "Chao Phraya river boat", "Orange flag, 15 THB"],
             [
                 "18:30",
                 "Dinner cruise or Asiatique",
                 "Cruise boards about 19:00",
+                "Asiatique The Riverfront",
             ],
         ],
         m: [
-            "Chatuchak Weekend Market (open today)",
+            "Chatuchak Weekend Market (open today, vintage clothes sections)",
+            "Analog Space & Vintage Shop on Song Wat Road: second-hand film cameras from Japan",
             "Chinatown street food from about 18:00",
             "Thai massage near Wat Pho",
         ],
@@ -243,15 +399,21 @@ const days: Day[] = [
             ["08:00", "Slow breakfast", ""],
             [
                 "09:30",
-                "Option: Jim Thompson House or Wat Saket",
-                "Or a massage",
+                "Option: MBK, Jim Thompson House or Wat Saket",
+                "MBK’s ground floor sells second-hand cameras (opens about 10:30). Or a massage",
+                "MBK Center",
             ],
             [
                 "12:00",
                 "Check out, lunch",
                 "Leave bags at the hotel if you like",
             ],
-            ["~15:30", "Leave for Suvarnabhumi", "30–60 min, about ₹2,100"],
+            [
+                "~15:30",
+                "Leave for Suvarnabhumi",
+                "30–60 min, about ₹2,100",
+                "Suvarnabhumi Airport",
+            ],
             [
                 "~17:00",
                 "Reach the airport",
@@ -260,8 +422,10 @@ const days: Day[] = [
             ["20:00", "Bangkok → New Delhi", "Lands 23:00, Terminal 3"],
         ],
         m: [
+            "Jim Thompson House (about 09:00–18:00)",
+            "Wat Saket, about 300 steps up for a city view",
             "Lumpini Park",
-            "Malls: ICONSIAM, Siam Paragon, MBK (about 10:00–22:00)",
+            "Malls: ICONSIAM, Siam Paragon (about 10:00–22:00)",
         ],
     },
 ];
@@ -310,22 +474,65 @@ const days: Day[] = [
                             <h2>{day.t}</h2>
                         </div>
 
+                        {day.nt && day.nt.length > 0 && (
+                            <div class="todo">
+                                <b>To do</b>
+                                <ul>
+                                    {day.nt.map((item) => (
+                                        <li>{item}</li>
+                                    ))}
+                                </ul>
+                            </div>
+                        )}
+
                         <div class="stay">
                             <b>Sleep</b>
                             {day.s}
                         </div>
 
                         <ol>
-                            {day.r.map(([time, title, note]) => (
-                                <li>
-                                    <div class="t">{time}</div>
-                                    <div class="x">
-                                        <b>{title}</b>
-                                        {note && <span>{note}</span>}
-                                    </div>
-                                </li>
-                            ))}
+                            {day.r.map(([time, title, note, place]) => {
+                                const url = linkFor(place);
+                                return (
+                                    <li>
+                                        <div class="t">{time}</div>
+                                        <div class="x">
+                                            <b>{title}</b>
+                                            {note && <span>{note}</span>}
+                                            {url && (
+                                                <a
+                                                    class="pin"
+                                                    href={url}
+                                                    target="_blank"
+                                                    rel="noopener"
+                                                >
+                                                    📍 Map
+                                                </a>
+                                            )}
+                                        </div>
+                                    </li>
+                                );
+                            })}
                         </ol>
+
+                        {placesFor(day.n).length > 0 && (
+                            <details>
+                                <summary>All map links for this day</summary>
+                                <ul>
+                                    {placesFor(day.n).map((p) => (
+                                        <li>
+                                            <a
+                                                href={mapUrl(p)}
+                                                target="_blank"
+                                                rel="noopener"
+                                            >
+                                                📍 {p.name}
+                                            </a>
+                                        </li>
+                                    ))}
+                                </ul>
+                            </details>
+                        )}
 
                         <details>
                             <summary>More things to do</summary>
@@ -488,6 +695,30 @@ const days: Day[] = [
         text-transform: uppercase;
         letter-spacing: 0.05em;
     }
+    .todo {
+        background: var(--card);
+        border: 1px solid var(--line);
+        border-left: 5px solid #bf9000;
+        border-radius: 12px;
+        padding: 10px 12px;
+        margin: 14px 0;
+    }
+    .todo b {
+        display: block;
+        color: var(--mut);
+        font-size: 12px;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+    }
+    .todo ul {
+        margin: 6px 0 0;
+        padding-left: 18px;
+    }
+    .todo li {
+        color: var(--fg);
+        font-size: 14px;
+        padding: 2px 0;
+    }
     ol {
         list-style: none;
         margin: 0;
@@ -503,7 +734,7 @@ const days: Day[] = [
         margin-bottom: 8px;
     }
     .t {
-        flex: 0 0 64px;
+        flex: 0 0 72px;
         font-weight: 700;
         color: var(--acc);
         font-size: 14px;
@@ -516,6 +747,14 @@ const days: Day[] = [
         color: var(--mut);
         font-size: 14px;
         margin-top: 2px;
+    }
+    .pin {
+        display: inline-block;
+        margin-top: 6px;
+        font-size: 13px;
+        font-weight: 600;
+        color: var(--acc);
+        text-decoration: none;
     }
     details {
         background: var(--card);
@@ -536,6 +775,11 @@ const days: Day[] = [
     }
     details li {
         padding: 2px 0;
+    }
+    details a {
+        color: var(--acc);
+        font-weight: 600;
+        text-decoration: none;
     }
     .pn {
         display: flex;
